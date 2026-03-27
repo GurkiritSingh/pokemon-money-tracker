@@ -1241,6 +1241,8 @@
       <button onclick="switchView('hits', this)">My Hits</button>
     </div>
 
+    <!-- TRACKER -->
+    <div class="view active" id="view-tracker">
     <div class="month-nav">
       <button id="prevMonth">&#8249;</button>
       <span id="currentMonth">March 2026</span>
@@ -1278,9 +1280,6 @@
       </div>
       <div id="pwContent"></div>
     </div>
-
-    <!-- TRACKER -->
-    <div class="view active" id="view-tracker">
       <div class="card">
         <h2>Add Transaction</h2>
         <div class="type-toggle">
@@ -1360,6 +1359,11 @@
 
     <!-- CALENDAR -->
     <div class="view" id="view-calendar">
+      <div class="month-nav">
+        <button onclick="viewDate.setMonth(viewDate.getMonth()-1);selectedCalDay=null;render()">&#8249;</button>
+        <span id="calMonth"></span>
+        <button onclick="viewDate.setMonth(viewDate.getMonth()+1);selectedCalDay=null;render()">&#8250;</button>
+      </div>
       <div class="calendar">
         <div class="cal-header">
           <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
@@ -1371,6 +1375,11 @@
 
     <!-- SPREADSHEET -->
     <div class="view" id="view-spreadsheet">
+      <div class="month-nav">
+        <button onclick="viewDate.setMonth(viewDate.getMonth()-1);ssPage=0;render()">&#8249;</button>
+        <span id="ssMonth"></span>
+        <button onclick="viewDate.setMonth(viewDate.getMonth()+1);ssPage=0;render()">&#8250;</button>
+      </div>
       <div class="spreadsheet-container">
         <div class="spreadsheet-toolbar">
           <input type="text" class="search-box" id="ssSearch" placeholder="Search transactions..." oninput="renderSpreadsheet()">
@@ -1600,7 +1609,12 @@
     // ===== MAIN RENDER =====
     function render() {
       const month = viewDate.getMonth(), year = viewDate.getFullYear();
-      document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
+      const monthLabel = `${monthNames[month]} ${year}`;
+      document.getElementById('currentMonth').textContent = monthLabel;
+      const calMonthEl = document.getElementById('calMonth');
+      const ssMonthEl = document.getElementById('ssMonth');
+      if (calMonthEl) calMonthEl.textContent = monthLabel;
+      if (ssMonthEl) ssMonthEl.textContent = monthLabel;
       const monthTx = getMonthTx();
       const spent = monthTx.filter(t => t.type === 'spend').reduce((s, t) => s + t.totalAmount, 0);
       const earned = monthTx.filter(t => t.type === 'income').reduce((s, t) => s + t.totalAmount, 0);
@@ -1610,12 +1624,11 @@
       const netEl = document.getElementById('totalNet');
       netEl.textContent = `${net >= 0 ? '+' : ''}£${net.toFixed(2)}`;
       netEl.className = `amount ${net >= 0 ? 'positive' : 'negative'}`;
-      if (currentView === 'tracker') renderTracker(monthTx);
+      if (currentView === 'tracker') { renderTracker(monthTx); renderPackWeek(); }
       else if (currentView === 'calendar') renderCalendar(monthTx);
       else if (currentView === 'spreadsheet') renderSpreadsheet();
       else if (currentView === 'inventory') renderInventory();
       else if (currentView === 'hits') renderHits();
-      renderPackWeek();
     }
 
     // ===== PACK A WEEK =====
