@@ -1,6 +1,6 @@
 {
-  "name": "Pokemon Money Tracker",
-  "short_name": "PokTracker",
+  "name": "G-VAULT TCG Tracker",
+  "short_name": "G-VAULT",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0c0c1d",
