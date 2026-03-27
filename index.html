@@ -1002,6 +1002,181 @@
 
     .inv-empty { text-align: center; padding: 36px; color: var(--text3); font-size: 0.9rem; }
 
+    /* ===== HITS / PULLS ===== */
+    .photo-upload {
+      border: 2px dashed var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: rgba(255,255,255,0.02);
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .photo-upload:hover { border-color: var(--accent); background: rgba(255,203,5,0.05); }
+    .photo-placeholder { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text3); font-size: 0.85rem; }
+    .photo-icon { font-size: 2.5rem; }
+    .photo-preview {
+      max-width: 100%;
+      max-height: 250px;
+      border-radius: var(--radius-sm);
+      object-fit: contain;
+    }
+
+    .hits-filter {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+    .hits-filter button {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      color: var(--text2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-family: inherit;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .hits-filter button:hover { border-color: var(--accent); color: var(--text); }
+    .hits-filter button.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+    .hits-stats {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .hits-stat {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 12px 18px;
+      flex: 1;
+      min-width: 100px;
+      text-align: center;
+    }
+    .hits-stat-num { font-size: 1.5rem; font-weight: 800; color: var(--accent); }
+    .hits-stat-label { font-size: 0.7rem; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+    .hits-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .hit-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .hit-card:hover { border-color: rgba(255,203,5,0.3); transform: translateY(-3px); box-shadow: var(--glow-gold); }
+
+    .hit-card-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      background: var(--bg2);
+      display: block;
+    }
+    .hit-card-no-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(135deg, var(--bg2), var(--card));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      opacity: 0.3;
+    }
+
+    .hit-card-info {
+      padding: 14px;
+    }
+    .hit-card-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+    .hit-card-set {
+      font-size: 0.8rem;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    .hit-card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .hit-card-date {
+      font-size: 0.75rem;
+      color: var(--text3);
+    }
+    .hit-card-notes {
+      font-size: 0.75rem;
+      color: var(--text3);
+      font-style: italic;
+      margin-top: 6px;
+    }
+    .hit-card-actions {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: flex;
+      gap: 4px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .hit-card:hover .hit-card-actions { opacity: 1; }
+    .hit-card-actions button {
+      background: rgba(0,0,0,0.7);
+      border: none;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.8rem;
+      backdrop-filter: blur(4px);
+    }
+    .hit-card-actions button:hover { background: var(--red); }
+
+    /* Rarity badges */
+    .rarity-badge {
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .rarity-common { background: rgba(150,150,150,0.2); color: #999; }
+    .rarity-uncommon { background: rgba(76,175,80,0.15); color: #66bb6a; }
+    .rarity-rare { background: rgba(33,150,243,0.15); color: #42a5f5; }
+    .rarity-double-rare { background: rgba(33,150,243,0.2); color: #64b5f6; }
+    .rarity-ultra-rare { background: rgba(171,71,188,0.2); color: #ce93d8; }
+    .rarity-illustration-rare { background: rgba(255,167,38,0.2); color: #ffb74d; }
+    .rarity-special-illustration-rare { background: linear-gradient(135deg, rgba(255,167,38,0.25), rgba(233,30,99,0.25)); color: #ff8a65; }
+    .rarity-hyper-rare { background: linear-gradient(135deg, rgba(233,30,99,0.2), rgba(156,39,176,0.2)); color: #f48fb1; }
+    .rarity-secret-rare { background: rgba(255,235,59,0.2); color: #fdd835; }
+    .rarity-shiny { background: linear-gradient(135deg, rgba(100,181,246,0.2), rgba(178,235,242,0.2)); color: #81d4fa; }
+    .rarity-gold { background: linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,165,0,0.2)); color: #ffd700; }
+    .rarity-crown-rare { background: linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,69,0,0.2)); color: #ffd700; text-shadow: 0 0 8px rgba(255,215,0,0.4); }
+    .rarity-god-pack { background: linear-gradient(135deg, rgba(255,215,0,0.4), rgba(255,69,0,0.3), rgba(156,39,176,0.3)); color: #fff; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+
+    .hits-empty { text-align: center; padding: 48px 24px; color: var(--text3); font-size: 0.9rem; }
+    .hits-empty .icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.5; }
+
     /* ===== ANIMATIONS ===== */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(8px); }
@@ -1060,6 +1235,7 @@
       <button onclick="switchView('calendar', this)">Calendar</button>
       <button onclick="switchView('spreadsheet', this)">Spreadsheet</button>
       <button onclick="switchView('inventory', this)">My Packs</button>
+      <button onclick="switchView('hits', this)">My Hits</button>
     </div>
 
     <div class="month-nav">
@@ -1236,6 +1412,81 @@
       </div>
     </div>
 
+    <!-- HITS -->
+    <div class="view" id="view-hits">
+      <div class="card">
+        <h2>Add a Hit</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Card Photo</label>
+            <div class="photo-upload" id="photoUpload" onclick="document.getElementById('hitPhoto').click()">
+              <input type="file" id="hitPhoto" accept="image/*" capture="environment" style="display:none" onchange="previewHitPhoto(this)">
+              <div class="photo-placeholder" id="photoPlaceholder">
+                <span class="photo-icon">📸</span>
+                <span>Tap to take photo or upload</span>
+              </div>
+              <img id="photoPreview" class="photo-preview" style="display:none">
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Card Name</label>
+            <input type="text" id="hitName" placeholder="e.g. Charizard ex">
+          </div>
+          <div class="form-group">
+            <label>Set / Booster Pack</label>
+            <input type="text" id="hitSet" placeholder="e.g. Prismatic Evolutions">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Rarity</label>
+            <select id="hitRarity">
+              <option value="common">Common</option>
+              <option value="uncommon">Uncommon</option>
+              <option value="rare">Rare</option>
+              <option value="double-rare">Double Rare ★★</option>
+              <option value="ultra-rare">Ultra Rare</option>
+              <option value="illustration-rare">Illustration Rare</option>
+              <option value="special-illustration-rare">Special Illustration Rare</option>
+              <option value="hyper-rare">Hyper Rare</option>
+              <option value="secret-rare">Secret Rare</option>
+              <option value="shiny">Shiny</option>
+              <option value="gold">Gold</option>
+              <option value="crown-rare">Crown Rare 👑</option>
+              <option value="god-pack">God Pack</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Date Pulled</label>
+            <input type="date" id="hitDate">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Notes (optional)</label>
+            <input type="text" id="hitNotes" placeholder="e.g. Pulled from first pack!">
+          </div>
+        </div>
+        <button class="btn-primary" onclick="addHit()">Add Hit</button>
+      </div>
+
+      <div class="hits-filter">
+        <button class="active" onclick="setHitFilter('all', this)">All</button>
+        <button onclick="setHitFilter('crown-rare', this)">Crown</button>
+        <button onclick="setHitFilter('special-illustration-rare', this)">SIR</button>
+        <button onclick="setHitFilter('illustration-rare', this)">IR</button>
+        <button onclick="setHitFilter('ultra-rare', this)">Ultra</button>
+        <button onclick="setHitFilter('hyper-rare', this)">Hyper</button>
+        <button onclick="setHitFilter('shiny', this)">Shiny</button>
+        <button onclick="setHitFilter('gold', this)">Gold</button>
+      </div>
+
+      <div class="hits-stats" id="hitsStats"></div>
+      <div class="hits-gallery" id="hitsGallery"></div>
+    </div>
+
     <!-- INVENTORY -->
     <div class="view" id="view-inventory">
       <div class="card">
@@ -1278,10 +1529,15 @@
     let pwWeekOffset = 0;
     let pwBudget = parseInt(localStorage.getItem('pokemon-tracker-pw-budget') || '1');
 
+    let hits = JSON.parse(localStorage.getItem('pokemon-tracker-hits') || '[]');
+    let hitFilter = 'all';
+    let hitPhotoData = null;
+
     const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     const packCategories = ['booster', 'etb', 'tin', 'box'];
 
     document.getElementById('txDate').value = todayStr();
+    document.getElementById('hitDate').value = todayStr();
     document.getElementById('pwBudget').value = pwBudget;
     render();
 
@@ -1377,6 +1633,7 @@
       else if (currentView === 'calendar') renderCalendar(monthTx);
       else if (currentView === 'spreadsheet') renderSpreadsheet();
       else if (currentView === 'inventory') renderInventory();
+      else if (currentView === 'hits') renderHits();
       renderPackWeek();
     }
 
@@ -1600,9 +1857,136 @@
       save(); render();
     }
 
+    // ===== HITS / PULLS =====
+    function saveHits() { localStorage.setItem('pokemon-tracker-hits', JSON.stringify(hits)); }
+
+    function previewHitPhoto(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        // Resize to save localStorage space
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const maxSize = 600;
+          let w = img.width, h = img.height;
+          if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } }
+          else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          hitPhotoData = canvas.toDataURL('image/jpeg', 0.7);
+          document.getElementById('photoPreview').src = hitPhotoData;
+          document.getElementById('photoPreview').style.display = '';
+          document.getElementById('photoPlaceholder').style.display = 'none';
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function addHit() {
+      const name = document.getElementById('hitName').value.trim();
+      const set = document.getElementById('hitSet').value.trim();
+      const rarity = document.getElementById('hitRarity').value;
+      const date = document.getElementById('hitDate').value;
+      const notes = document.getElementById('hitNotes').value.trim();
+
+      if (!name) return alert('Enter the card name');
+      if (!set) return alert('Enter which set/booster pack it came from');
+      if (!date) return alert('Pick the date you pulled it');
+
+      hits.push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+        name, set, rarity, date, notes,
+        photo: hitPhotoData,
+        createdAt: new Date().toISOString()
+      });
+
+      saveHits(); render();
+
+      // Reset form
+      document.getElementById('hitName').value = '';
+      document.getElementById('hitSet').value = '';
+      document.getElementById('hitRarity').value = 'common';
+      document.getElementById('hitDate').value = todayStr();
+      document.getElementById('hitNotes').value = '';
+      hitPhotoData = null;
+      document.getElementById('photoPreview').style.display = 'none';
+      document.getElementById('photoPlaceholder').style.display = '';
+      document.getElementById('hitPhoto').value = '';
+    }
+
+    function deleteHit(id) {
+      if (!confirm('Delete this hit?')) return;
+      hits = hits.filter(h => h.id !== id);
+      saveHits(); render();
+    }
+
+    function setHitFilter(filter, btn) {
+      hitFilter = filter;
+      document.querySelectorAll('.hits-filter button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    }
+
+    function renderHits() {
+      const statsEl = document.getElementById('hitsStats');
+      const galleryEl = document.getElementById('hitsGallery');
+
+      const rarityLabels = {
+        'common': 'Common', 'uncommon': 'Uncommon', 'rare': 'Rare',
+        'double-rare': '★★', 'ultra-rare': 'Ultra Rare',
+        'illustration-rare': 'IR', 'special-illustration-rare': 'SIR',
+        'hyper-rare': 'Hyper', 'secret-rare': 'Secret',
+        'shiny': 'Shiny', 'gold': 'Gold', 'crown-rare': 'Crown 👑', 'god-pack': 'God Pack'
+      };
+
+      // Stats
+      const totalHits = hits.length;
+      const sets = [...new Set(hits.map(h => h.set))].length;
+      const topRarities = hits.filter(h => ['ultra-rare','illustration-rare','special-illustration-rare','hyper-rare','secret-rare','gold','crown-rare','god-pack'].includes(h.rarity)).length;
+
+      statsEl.innerHTML = `
+        <div class="hits-stat"><div class="hits-stat-num">${totalHits}</div><div class="hits-stat-label">Total Hits</div></div>
+        <div class="hits-stat"><div class="hits-stat-num">${sets}</div><div class="hits-stat-label">Sets</div></div>
+        <div class="hits-stat"><div class="hits-stat-num">${topRarities}</div><div class="hits-stat-label">Top Pulls</div></div>
+      `;
+
+      // Filter
+      let filtered = hitFilter === 'all' ? hits : hits.filter(h => h.rarity === hitFilter);
+      filtered = [...filtered].sort((a, b) => parseDate(b.date) - parseDate(a.date));
+
+      if (filtered.length === 0) {
+        galleryEl.innerHTML = `<div class="hits-empty" style="grid-column:1/-1"><div class="icon">🃏</div><p>${hitFilter === 'all' ? 'No hits yet — add your first pull above!' : 'No hits with this rarity'}</p></div>`;
+        return;
+      }
+
+      galleryEl.innerHTML = filtered.map(hit => `
+        <div class="hit-card">
+          <div class="hit-card-actions">
+            <button onclick="deleteHit('${hit.id}')" title="Delete">&#x2715;</button>
+          </div>
+          ${hit.photo
+            ? `<img class="hit-card-img" src="${hit.photo}" alt="${escHtml(hit.name)}">`
+            : `<div class="hit-card-no-img">🃏</div>`
+          }
+          <div class="hit-card-info">
+            <div class="hit-card-name">${escHtml(hit.name)}</div>
+            <div class="hit-card-set">${escHtml(hit.set)}</div>
+            <div class="hit-card-meta">
+              <span class="rarity-badge rarity-${hit.rarity}">${rarityLabels[hit.rarity] || hit.rarity}</span>
+              <span class="hit-card-date">${formatDate(hit.date)}</span>
+            </div>
+            ${hit.notes ? `<div class="hit-card-notes">"${escHtml(hit.notes)}"</div>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
     // ===== BACKUP & RESTORE =====
     function backupData() {
-      const data = { transactions, inventory, pwBudget, exportedAt: new Date().toISOString() };
+      const data = { transactions, inventory, hits, pwBudget, exportedAt: new Date().toISOString() };
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
       a.download = `pokemon-tracker-backup-${new Date().toISOString().split('T')[0]}.json`; a.click();
@@ -1620,6 +2004,7 @@
             transactions = data.transactions;
             if (data.pwBudget) { pwBudget = data.pwBudget; localStorage.setItem('pokemon-tracker-pw-budget', pwBudget.toString()); document.getElementById('pwBudget').value = pwBudget; }
             if (data.inventory) { inventory = data.inventory; saveInventory(); }
+            if (data.hits) { hits = data.hits; saveHits(); }
             save(); render(); alert('Data restored!');
           } catch (err) { alert('Error: ' + err.message); }
         };
