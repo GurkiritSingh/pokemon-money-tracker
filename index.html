@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KINETIC | Pokemon TCG Tracker</title>
+  <title>GK | Pokemon TCG Tracker</title>
   <link rel="icon" type="image/svg+xml" href="icon-192.svg?v=2">
   <link rel="apple-touch-icon" href="icon-192.svg">
   <link rel="manifest" href="manifest.json">
@@ -112,7 +112,7 @@
       gap: 8px;
     }
 
-    .top-nav .brand .material-symbols-outlined { color: var(--accent); font-size: 1.5rem; }
+    .top-nav .brand svg { filter: drop-shadow(0 0 6px rgba(255,203,5,0.3)); }
 
     .top-nav .brand-name {
       font-size: 1.15rem;
@@ -1259,8 +1259,19 @@
   <!-- Fixed Top Navigation -->
   <nav class="top-nav">
     <div class="brand">
-      <span class="material-symbols-outlined">capture</span>
-      <span class="brand-name">KINETIC</span>
+      <svg width="32" height="32" viewBox="0 0 100 100" style="flex-shrink:0">
+        <circle cx="50" cy="50" r="48" fill="#ff1c1c" stroke="#222" stroke-width="4"/>
+        <rect x="2" y="46" width="96" height="8" fill="#222"/>
+        <circle cx="50" cy="50" r="48" fill="none" stroke="#222" stroke-width="4"/>
+        <circle cx="50" cy="50" r="16" fill="#fff" stroke="#222" stroke-width="4"/>
+        <circle cx="50" cy="50" r="8" fill="#222"/>
+        <rect x="2" y="50" width="96" height="48" rx="0" fill="#fff" clip-path="inset(0 0 0 0 round 0 0 48px 48px)" stroke="none"/>
+        <path d="M2,50 h96 v0 a48,48 0 0 1 -96,0 z" fill="#fff"/>
+        <rect x="2" y="46" width="96" height="8" fill="#222"/>
+        <circle cx="50" cy="50" r="16" fill="#fff" stroke="#222" stroke-width="4"/>
+        <text x="50" y="57" text-anchor="middle" font-family="Inter,sans-serif" font-size="22" font-weight="800" fill="#222">G</text>
+      </svg>
+      <span class="brand-name">GK</span>
     </div>
     <div class="nav-links" id="desktopNav">
       <a class="active" onclick="switchViewNav('tracker', this)">Tracker</a>
