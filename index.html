@@ -1174,6 +1174,9 @@
     .rarity-crown-rare { background: linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,69,0,0.2)); color: #ffd700; text-shadow: 0 0 8px rgba(255,215,0,0.4); }
     .rarity-god-pack { background: linear-gradient(135deg, rgba(255,215,0,0.4), rgba(255,69,0,0.3), rgba(156,39,176,0.3)); color: #fff; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
 
+    /* Default rarity style for custom rarities */
+    .rarity-badge[class*="rarity-"] { background: rgba(255,203,5,0.15); color: var(--accent); }
+
     .hits-empty { text-align: center; padding: 48px 24px; color: var(--text3); font-size: 0.9rem; }
     .hits-empty .icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.5; }
 
@@ -1442,21 +1445,8 @@
         <div class="form-row">
           <div class="form-group">
             <label>Rarity</label>
-            <select id="hitRarity">
-              <option value="common">Common</option>
-              <option value="uncommon">Uncommon</option>
-              <option value="rare">Rare</option>
-              <option value="double-rare">Double Rare ★★</option>
-              <option value="ultra-rare">Ultra Rare</option>
-              <option value="illustration-rare">Illustration Rare</option>
-              <option value="special-illustration-rare">Special Illustration Rare</option>
-              <option value="hyper-rare">Hyper Rare</option>
-              <option value="secret-rare">Secret Rare</option>
-              <option value="shiny">Shiny</option>
-              <option value="gold">Gold</option>
-              <option value="crown-rare">Crown Rare 👑</option>
-              <option value="god-pack">God Pack</option>
-            </select>
+            <input type="text" id="hitRarity" list="rarityList" placeholder="e.g. Ultra Rare, SIR, Crown...">
+            <datalist id="rarityList"></datalist>
           </div>
           <div class="form-group">
             <label>Date Pulled</label>
@@ -1472,16 +1462,7 @@
         <button class="btn-primary" onclick="addHit()">Add Hit</button>
       </div>
 
-      <div class="hits-filter">
-        <button class="active" onclick="setHitFilter('all', this)">All</button>
-        <button onclick="setHitFilter('crown-rare', this)">Crown</button>
-        <button onclick="setHitFilter('special-illustration-rare', this)">SIR</button>
-        <button onclick="setHitFilter('illustration-rare', this)">IR</button>
-        <button onclick="setHitFilter('ultra-rare', this)">Ultra</button>
-        <button onclick="setHitFilter('hyper-rare', this)">Hyper</button>
-        <button onclick="setHitFilter('shiny', this)">Shiny</button>
-        <button onclick="setHitFilter('gold', this)">Gold</button>
-      </div>
+      <div class="hits-filter" id="hitsFilterBar"></div>
 
       <div class="hits-stats" id="hitsStats"></div>
       <div class="hits-gallery" id="hitsGallery"></div>
@@ -1860,12 +1841,31 @@
     // ===== HITS / PULLS =====
     function saveHits() { localStorage.setItem('pokemon-tracker-hits', JSON.stringify(hits)); }
 
+    // Default rarity suggestions
+    const defaultRarities = ['Common', 'Uncommon', 'Rare', 'Double Rare', 'Ultra Rare', 'Illustration Rare', 'Special Illustration Rare', 'Hyper Rare', 'Secret Rare', 'Shiny', 'Gold', 'Crown Rare', 'God Pack'];
+
+    // Get all unique rarities from hits + defaults
+    function getAllRarities() {
+      const fromHits = hits.map(h => h.rarity);
+      const all = [...new Set([...defaultRarities, ...fromHits])];
+      return all.sort();
+    }
+
+    // Convert rarity text to a CSS-safe class name
+    function rarityClass(rarity) {
+      return rarity.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+
+    function updateRarityDatalist() {
+      const dl = document.getElementById('rarityList');
+      dl.innerHTML = getAllRarities().map(r => `<option value="${r}">`).join('');
+    }
+
     function previewHitPhoto(input) {
       const file = input.files[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = (e) => {
-        // Resize to save localStorage space
         const img = new Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
@@ -1888,12 +1888,13 @@
     function addHit() {
       const name = document.getElementById('hitName').value.trim();
       const set = document.getElementById('hitSet').value.trim();
-      const rarity = document.getElementById('hitRarity').value;
+      const rarity = document.getElementById('hitRarity').value.trim();
       const date = document.getElementById('hitDate').value;
       const notes = document.getElementById('hitNotes').value.trim();
 
       if (!name) return alert('Enter the card name');
       if (!set) return alert('Enter which set/booster pack it came from');
+      if (!rarity) return alert('Enter the rarity');
       if (!date) return alert('Pick the date you pulled it');
 
       hits.push({
@@ -1908,7 +1909,7 @@
       // Reset form
       document.getElementById('hitName').value = '';
       document.getElementById('hitSet').value = '';
-      document.getElementById('hitRarity').value = 'common';
+      document.getElementById('hitRarity').value = '';
       document.getElementById('hitDate').value = todayStr();
       document.getElementById('hitNotes').value = '';
       hitPhotoData = null;
@@ -1923,34 +1924,36 @@
       saveHits(); render();
     }
 
-    function setHitFilter(filter, btn) {
+    function setHitFilter(filter) {
       hitFilter = filter;
-      document.querySelectorAll('.hits-filter button').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
       render();
     }
 
     function renderHits() {
       const statsEl = document.getElementById('hitsStats');
       const galleryEl = document.getElementById('hitsGallery');
+      const filterBar = document.getElementById('hitsFilterBar');
 
-      const rarityLabels = {
-        'common': 'Common', 'uncommon': 'Uncommon', 'rare': 'Rare',
-        'double-rare': '★★', 'ultra-rare': 'Ultra Rare',
-        'illustration-rare': 'IR', 'special-illustration-rare': 'SIR',
-        'hyper-rare': 'Hyper', 'secret-rare': 'Secret',
-        'shiny': 'Shiny', 'gold': 'Gold', 'crown-rare': 'Crown 👑', 'god-pack': 'God Pack'
-      };
+      // Build dynamic filter buttons from rarities that exist in hits
+      const usedRarities = [...new Set(hits.map(h => h.rarity))].sort();
+      let filterHtml = `<button class="${hitFilter === 'all' ? 'active' : ''}" onclick="setHitFilter('all')">All</button>`;
+      usedRarities.forEach(r => {
+        filterHtml += `<button class="${hitFilter === r ? 'active' : ''}" onclick="setHitFilter('${escHtml(r)}')">${escHtml(r)}</button>`;
+      });
+      filterBar.innerHTML = filterHtml;
+
+      // Update datalist suggestions
+      updateRarityDatalist();
 
       // Stats
       const totalHits = hits.length;
       const sets = [...new Set(hits.map(h => h.set))].length;
-      const topRarities = hits.filter(h => ['ultra-rare','illustration-rare','special-illustration-rare','hyper-rare','secret-rare','gold','crown-rare','god-pack'].includes(h.rarity)).length;
+      const uniqueRarities = usedRarities.length;
 
       statsEl.innerHTML = `
         <div class="hits-stat"><div class="hits-stat-num">${totalHits}</div><div class="hits-stat-label">Total Hits</div></div>
         <div class="hits-stat"><div class="hits-stat-num">${sets}</div><div class="hits-stat-label">Sets</div></div>
-        <div class="hits-stat"><div class="hits-stat-num">${topRarities}</div><div class="hits-stat-label">Top Pulls</div></div>
+        <div class="hits-stat"><div class="hits-stat-num">${uniqueRarities}</div><div class="hits-stat-label">Rarities</div></div>
       `;
 
       // Filter
@@ -1975,7 +1978,7 @@
             <div class="hit-card-name">${escHtml(hit.name)}</div>
             <div class="hit-card-set">${escHtml(hit.set)}</div>
             <div class="hit-card-meta">
-              <span class="rarity-badge rarity-${hit.rarity}">${rarityLabels[hit.rarity] || hit.rarity}</span>
+              <span class="rarity-badge rarity-${rarityClass(hit.rarity)}">${escHtml(hit.rarity)}</span>
               <span class="hit-card-date">${formatDate(hit.date)}</span>
             </div>
             ${hit.notes ? `<div class="hit-card-notes">"${escHtml(hit.notes)}"</div>` : ''}
