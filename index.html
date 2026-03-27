@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GK | Pokemon TCG Tracker</title>
+  <title>G-VAULT | TCG Tracker</title>
   <link rel="icon" type="image/svg+xml" href="icon-192.svg?v=2">
   <link rel="apple-touch-icon" href="icon-192.svg">
   <link rel="manifest" href="manifest.json">
@@ -103,7 +103,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 14px 24px;
-      box-shadow: 0 4px 24px rgba(255,203,5,0.06);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,203,5,0.06);
     }
 
     .top-nav .brand {
@@ -112,10 +112,49 @@
       gap: 8px;
     }
 
-    .top-nav .brand svg { filter: drop-shadow(0 0 6px rgba(255,203,5,0.3)); }
+    .top-nav .brand-logo {
+      position: relative;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 10px rgba(255,203,5,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .top-nav .brand-logo-line {
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .top-nav .brand-logo-center {
+      position: relative;
+      z-index: 1;
+      width: 16px;
+      height: 16px;
+      background: var(--bg);
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .top-nav .brand-logo-center span {
+      font-size: 10px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+    }
 
     .top-nav .brand-name {
-      font-size: 1.15rem;
+      font-size: 1.25rem;
       font-weight: 900;
       letter-spacing: -0.02em;
       color: var(--accent);
@@ -1259,19 +1298,13 @@
   <!-- Fixed Top Navigation -->
   <nav class="top-nav">
     <div class="brand">
-      <svg width="32" height="32" viewBox="0 0 100 100" style="flex-shrink:0">
-        <circle cx="50" cy="50" r="48" fill="#ff1c1c" stroke="#222" stroke-width="4"/>
-        <rect x="2" y="46" width="96" height="8" fill="#222"/>
-        <circle cx="50" cy="50" r="48" fill="none" stroke="#222" stroke-width="4"/>
-        <circle cx="50" cy="50" r="16" fill="#fff" stroke="#222" stroke-width="4"/>
-        <circle cx="50" cy="50" r="8" fill="#222"/>
-        <rect x="2" y="50" width="96" height="48" rx="0" fill="#fff" clip-path="inset(0 0 0 0 round 0 0 48px 48px)" stroke="none"/>
-        <path d="M2,50 h96 v0 a48,48 0 0 1 -96,0 z" fill="#fff"/>
-        <rect x="2" y="46" width="96" height="8" fill="#222"/>
-        <circle cx="50" cy="50" r="16" fill="#fff" stroke="#222" stroke-width="4"/>
-        <text x="50" y="57" text-anchor="middle" font-family="Inter,sans-serif" font-size="22" font-weight="800" fill="#222">G</text>
-      </svg>
-      <span class="brand-name">GK</span>
+      <div class="brand-logo">
+        <div class="brand-logo-line"></div>
+        <div class="brand-logo-center">
+          <span>G</span>
+        </div>
+      </div>
+      <span class="brand-name">G-VAULT</span>
     </div>
     <div class="nav-links" id="desktopNav">
       <a class="active" onclick="switchViewNav('tracker', this)">Tracker</a>
