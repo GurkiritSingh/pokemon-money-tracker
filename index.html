@@ -1259,6 +1259,80 @@
     .hits-empty { text-align: center; padding: 48px 24px; color: var(--text3); font-size: 0.9rem; }
     .hits-empty .icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.4; }
 
+    /* ===== CONTENT / VIDEOS ===== */
+    .content-stats {
+      display: flex;
+      gap: 12px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+    .content-stat {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 12px 18px;
+      flex: 1;
+      min-width: 80px;
+      text-align: center;
+    }
+    .content-stat-num { font-size: 1.3rem; font-weight: 800; }
+    .content-stat-num.views { color: var(--blue); }
+    .content-stat-num.subs { color: var(--accent); }
+    .content-stat-num.revenue { color: var(--green); }
+    .content-stat-num.videos { color: var(--text); }
+    .content-stat-label { font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+    .content-filter {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .content-filter button {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      color: var(--text2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-family: inherit;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .content-filter button:hover { border-color: var(--accent); color: var(--text); }
+    .content-filter button.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+    .platform-badge {
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .platform-tiktok { background: rgba(0,0,0,0.3); color: #ff0050; border: 1px solid rgba(255,0,80,0.3); }
+    .platform-youtube { background: rgba(255,0,0,0.12); color: #ff4444; }
+    .platform-shorts { background: rgba(255,0,0,0.12); color: #ff6666; }
+    .platform-instagram { background: linear-gradient(135deg, rgba(131,58,180,0.15), rgba(253,29,29,0.15), rgba(252,176,69,0.15)); color: #e1306c; }
+    .platform-other { background: rgba(255,255,255,0.08); color: var(--text2); }
+
+    .vid-title-link { color: var(--text); text-decoration: none; }
+    .vid-title-link:hover { color: var(--accent); text-decoration: underline; }
+
+    .content-edit-row input, .content-edit-row select {
+      background: var(--bg2);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.8rem;
+    }
+
     /* ===== SCROLLBAR ===== */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
@@ -1312,6 +1386,7 @@
       <a onclick="switchViewNav('spreadsheet', this)">Sheet</a>
       <a onclick="switchViewNav('inventory', this)">Packs</a>
       <a onclick="switchViewNav('hits', this)">Hits</a>
+      <a onclick="switchViewNav('content', this)">Content</a>
     </div>
     <button class="add-btn" onclick="switchViewNav('tracker', document.querySelector('#desktopNav a'));document.getElementById('amount').focus()">ADD</button>
   </nav>
@@ -1338,6 +1413,10 @@
       <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">stars</span>
       <span>Hits</span>
     </button>
+    <button class="nav-item" onclick="switchViewNav('content', this)">
+      <span class="material-symbols-outlined">videocam</span>
+      <span>Content</span>
+    </button>
   </nav>
 
   <div class="app">
@@ -1347,6 +1426,7 @@
       <button onclick="switchView('spreadsheet', this)">Spreadsheet</button>
       <button onclick="switchView('inventory', this)">My Packs</button>
       <button onclick="switchView('hits', this)">My Hits</button>
+      <button onclick="switchView('content', this)">Content</button>
     </div>
 
     <!-- TRACKER -->
@@ -1584,6 +1664,94 @@
       <div class="hits-gallery" id="hitsGallery"></div>
     </div>
 
+    <!-- CONTENT -->
+    <div class="view" id="view-content">
+      <div class="card">
+        <h2><span class="material-symbols-outlined">videocam</span> Add Video</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="vidTitle" placeholder="e.g. Opening 10 Prismatic Evolutions packs!">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Platform</label>
+            <select id="vidPlatform">
+              <option value="tiktok">TikTok</option>
+              <option value="youtube">YouTube</option>
+              <option value="instagram">Instagram</option>
+              <option value="shorts">YouTube Shorts</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Link (optional)</label>
+            <input type="text" id="vidLink" placeholder="https://...">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Views</label>
+            <input type="number" id="vidViews" min="0" value="0" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Subs / Followers gained</label>
+            <input type="number" id="vidSubs" min="0" value="0" placeholder="0">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Revenue (£)</label>
+            <input type="number" id="vidRevenue" step="0.01" min="0" value="0" placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label>Date Posted</label>
+            <input type="date" id="vidDate">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Notes (optional)</label>
+            <input type="text" id="vidNotes" placeholder="e.g. Went viral, collab with...">
+          </div>
+        </div>
+        <button class="btn-primary" onclick="addVideo()">Add Video</button>
+      </div>
+
+      <div class="content-stats" id="contentStats"></div>
+
+      <div class="content-filter" id="contentFilterBar"></div>
+
+      <div class="spreadsheet-container">
+        <div class="spreadsheet-wrap">
+          <table class="spreadsheet" id="contentTable">
+            <thead>
+              <tr>
+                <th onclick="contentSort('date')">Date <span class="sort-arrow" id="csort-date"></span></th>
+                <th onclick="contentSort('platform')">Platform <span class="sort-arrow" id="csort-platform"></span></th>
+                <th onclick="contentSort('title')">Title <span class="sort-arrow" id="csort-title"></span></th>
+                <th onclick="contentSort('views')">Views <span class="sort-arrow" id="csort-views"></span></th>
+                <th onclick="contentSort('subs')">Subs <span class="sort-arrow" id="csort-subs"></span></th>
+                <th onclick="contentSort('revenue')">Revenue <span class="sort-arrow" id="csort-revenue"></span></th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="contentBody"></tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3">Totals</td>
+                <td id="contentTotalViews"></td>
+                <td id="contentTotalSubs"></td>
+                <td id="contentTotalRevenue"></td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <!-- INVENTORY -->
     <div class="view" id="view-inventory">
       <div class="card">
@@ -1648,11 +1816,17 @@
     let hitFilter = 'all';
     let hitPhotoData = null;
 
+    let videos = JSON.parse(localStorage.getItem('pokemon-tracker-vids') || '[]');
+    let vidFilter = 'all';
+    let vidSort = { field: 'date', dir: 'desc' };
+    let vidEditingId = null;
+
     const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     const packCategories = ['booster', 'etb', 'tin', 'box'];
 
     document.getElementById('txDate').value = todayStr();
     document.getElementById('hitDate').value = todayStr();
+    document.getElementById('vidDate').value = todayStr();
     document.getElementById('pwBudget').value = pwBudget;
     render();
 
@@ -1759,6 +1933,7 @@
       else if (currentView === 'spreadsheet') renderSpreadsheet();
       else if (currentView === 'inventory') renderInventory();
       else if (currentView === 'hits') renderHits();
+      else if (currentView === 'content') renderContent();
     }
 
     // ===== PACK A WEEK =====
@@ -2122,9 +2297,161 @@
       `).join('');
     }
 
+    // ===== CONTENT / VIDEOS =====
+    function saveVideos() { localStorage.setItem('pokemon-tracker-vids', JSON.stringify(videos)); }
+
+    function addVideo() {
+      const title = document.getElementById('vidTitle').value.trim();
+      const platform = document.getElementById('vidPlatform').value;
+      const link = document.getElementById('vidLink').value.trim();
+      const views = parseInt(document.getElementById('vidViews').value) || 0;
+      const subs = parseInt(document.getElementById('vidSubs').value) || 0;
+      const revenue = parseFloat(document.getElementById('vidRevenue').value) || 0;
+      const date = document.getElementById('vidDate').value;
+      const notes = document.getElementById('vidNotes').value.trim();
+
+      if (!title) return alert('Enter a video title');
+      if (!date) return alert('Pick the date posted');
+
+      videos.push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+        title, platform, link, views, subs, revenue, date, notes,
+        createdAt: new Date().toISOString()
+      });
+
+      saveVideos(); render();
+
+      document.getElementById('vidTitle').value = '';
+      document.getElementById('vidLink').value = '';
+      document.getElementById('vidViews').value = '0';
+      document.getElementById('vidSubs').value = '0';
+      document.getElementById('vidRevenue').value = '0';
+      document.getElementById('vidDate').value = todayStr();
+      document.getElementById('vidNotes').value = '';
+    }
+
+    function deleteVideo(id) {
+      if (!confirm('Delete this video?')) return;
+      videos = videos.filter(v => v.id !== id);
+      saveVideos(); render();
+    }
+
+    function updateVideo(id, field, value) {
+      const vid = videos.find(v => v.id === id);
+      if (!vid) return;
+      if (field === 'views' || field === 'subs') vid[field] = parseInt(value) || 0;
+      else if (field === 'revenue') vid[field] = parseFloat(value) || 0;
+      else vid[field] = value;
+      saveVideos(); render();
+    }
+
+    function contentSort(field) {
+      if (vidSort.field === field) vidSort.dir = vidSort.dir === 'asc' ? 'desc' : 'asc';
+      else vidSort = { field, dir: 'desc' };
+      render();
+    }
+
+    function setVidFilter(filter) {
+      vidFilter = filter;
+      render();
+    }
+
+    function formatNum(n) {
+      if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+      if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+      return n.toString();
+    }
+
+    function renderContent() {
+      const statsEl = document.getElementById('contentStats');
+      const filterBar = document.getElementById('contentFilterBar');
+
+      // Platform filter buttons
+      const usedPlatforms = [...new Set(videos.map(v => v.platform))].sort();
+      const platformNames = { tiktok: 'TikTok', youtube: 'YouTube', instagram: 'Instagram', shorts: 'Shorts', other: 'Other' };
+      let filterHtml = `<button class="${vidFilter === 'all' ? 'active' : ''}" onclick="setVidFilter('all')">All</button>`;
+      usedPlatforms.forEach(p => {
+        filterHtml += `<button class="${vidFilter === p ? 'active' : ''}" onclick="setVidFilter('${p}')">${platformNames[p] || p}</button>`;
+      });
+      filterBar.innerHTML = filterHtml;
+
+      // Filter
+      let filtered = vidFilter === 'all' ? videos : videos.filter(v => v.platform === vidFilter);
+
+      // Stats
+      const totalViews = filtered.reduce((s, v) => s + v.views, 0);
+      const totalSubs = filtered.reduce((s, v) => s + v.subs, 0);
+      const totalRevenue = filtered.reduce((s, v) => s + v.revenue, 0);
+
+      statsEl.innerHTML = `
+        <div class="content-stat"><div class="content-stat-num videos">${filtered.length}</div><div class="content-stat-label">Videos</div></div>
+        <div class="content-stat"><div class="content-stat-num views">${formatNum(totalViews)}</div><div class="content-stat-label">Total Views</div></div>
+        <div class="content-stat"><div class="content-stat-num subs">${formatNum(totalSubs)}</div><div class="content-stat-label">Subs Gained</div></div>
+        <div class="content-stat"><div class="content-stat-num revenue">£${totalRevenue.toFixed(2)}</div><div class="content-stat-label">Revenue</div></div>
+      `;
+
+      // Sort
+      const { field, dir } = vidSort;
+      filtered = [...filtered].sort((a, b) => {
+        let va = a[field], vb = b[field];
+        if (field === 'date') { va = parseDate(va); vb = parseDate(vb); }
+        if (typeof va === 'string') { va = va.toLowerCase(); vb = vb.toLowerCase(); }
+        if (va < vb) return dir === 'asc' ? -1 : 1;
+        if (va > vb) return dir === 'asc' ? 1 : -1;
+        return 0;
+      });
+
+      // Sort arrows
+      ['date','platform','title','views','subs','revenue'].forEach(f => {
+        const el = document.getElementById('csort-' + f);
+        if (el) el.textContent = vidSort.field === f ? (vidSort.dir === 'asc' ? '▲' : '▼') : '';
+      });
+
+      const body = document.getElementById('contentBody');
+      if (filtered.length === 0) {
+        body.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:36px;color:var(--text3);">No videos yet — add your first one above!</td></tr>`;
+        document.getElementById('contentTotalViews').textContent = '';
+        document.getElementById('contentTotalSubs').textContent = '';
+        document.getElementById('contentTotalRevenue').textContent = '';
+        return;
+      }
+
+      body.innerHTML = filtered.map(vid => {
+        if (vidEditingId === vid.id) {
+          return `<tr class="content-edit-row">
+            <td><input type="date" value="${vid.date}" onchange="updateVideo('${vid.id}','date',this.value)"></td>
+            <td><select onchange="updateVideo('${vid.id}','platform',this.value)">
+              ${['tiktok','youtube','instagram','shorts','other'].map(p => `<option value="${p}" ${vid.platform === p ? 'selected' : ''}>${platformNames[p] || p}</option>`).join('')}
+            </select></td>
+            <td><input type="text" value="${escHtml(vid.title)}" style="width:100%;min-width:120px" onchange="updateVideo('${vid.id}','title',this.value)"></td>
+            <td><input type="number" value="${vid.views}" min="0" style="width:80px" onchange="updateVideo('${vid.id}','views',this.value)"></td>
+            <td><input type="number" value="${vid.subs}" min="0" style="width:70px" onchange="updateVideo('${vid.id}','subs',this.value)"></td>
+            <td><input type="number" value="${vid.revenue}" step="0.01" min="0" style="width:80px" onchange="updateVideo('${vid.id}','revenue',this.value)"></td>
+            <td><div class="row-actions"><button onclick="vidEditingId=null;render()" title="Done" style="color:var(--green)">&#x2713;</button><button onclick="deleteVideo('${vid.id}')" title="Delete">&#x2715;</button></div></td>
+          </tr>`;
+        }
+        const titleHtml = vid.link ? `<a href="${escHtml(vid.link)}" target="_blank" class="vid-title-link">${escHtml(vid.title)}</a>` : escHtml(vid.title);
+        return `<tr>
+          <td>${formatDate(vid.date)}</td>
+          <td><span class="platform-badge platform-${vid.platform}">${platformNames[vid.platform] || vid.platform}</span></td>
+          <td>${titleHtml}${vid.notes ? ` <span style="color:var(--text3);font-size:0.75rem" title="${escHtml(vid.notes)}">💬</span>` : ''}</td>
+          <td>${formatNum(vid.views)}</td>
+          <td>${formatNum(vid.subs)}</td>
+          <td style="color:${vid.revenue > 0 ? 'var(--green)' : 'var(--text3)'}">£${vid.revenue.toFixed(2)}</td>
+          <td><div class="row-actions"><button onclick="vidEditingId='${vid.id}';render()" title="Edit" style="color:var(--blue)">&#x270E;</button><button onclick="deleteVideo('${vid.id}')" title="Delete">&#x2715;</button></div></td>
+        </tr>`;
+      }).join('');
+
+      document.getElementById('contentTotalViews').textContent = formatNum(totalViews);
+      document.getElementById('contentTotalSubs').textContent = formatNum(totalSubs);
+      const revEl = document.getElementById('contentTotalRevenue');
+      revEl.textContent = `£${totalRevenue.toFixed(2)}`;
+      revEl.style.color = totalRevenue > 0 ? 'var(--green)' : 'var(--text3)';
+    }
+
     // ===== BACKUP & RESTORE =====
     function backupData() {
-      const data = { transactions, inventory, hits, pwBudget, exportedAt: new Date().toISOString() };
+      const data = { transactions, inventory, hits, videos, pwBudget, exportedAt: new Date().toISOString() };
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
       a.download = `pokemon-tracker-backup-${new Date().toISOString().split('T')[0]}.json`; a.click();
@@ -2143,6 +2470,7 @@
             if (data.pwBudget) { pwBudget = data.pwBudget; localStorage.setItem('pokemon-tracker-pw-budget', pwBudget.toString()); document.getElementById('pwBudget').value = pwBudget; }
             if (data.inventory) { inventory = data.inventory; saveInventory(); }
             if (data.hits) { hits = data.hits; saveHits(); }
+            if (data.videos) { videos = data.videos; saveVideos(); }
             save(); render(); alert('Data restored!');
           } catch (err) { alert('Error: ' + err.message); }
         };
